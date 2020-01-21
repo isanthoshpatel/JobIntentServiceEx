@@ -1,5 +1,6 @@
 package com.example.jobintentserviceex
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.SystemClock
@@ -10,22 +11,27 @@ class JobIntentServiceEx : JobIntentService() {
 
 
     companion object {
-        fun enqueueWork(c:Context,i:Intent){
-            enqueueWork(c,JobIntentServiceEx::class.java,123,i)
+        fun enqueueWork(c: Context, i: Intent) {
+            enqueueWork(c, JobIntentServiceEx::class.java, 123, i)
         }
     }
 
     override fun onHandleWork(intent: Intent) {
         var input = intent.getStringExtra("input")
 
-        var n1 = NotificationCompat.Builder(this,"ch1")
-            .setContentTitle(input)
-            .setContentText("Running....")
-            .build()
-        startForeground(1,n1)
+        for (i in 0..10) {
+            var n1 = NotificationCompat.Builder(this, "ch1")
+                .setContentTitle(input)
+                .setContentText("Running....$i")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentIntent(PendingIntent.getActivity(this,0,Intent(this,MainActivity::class.java),0))
+                .build()
 
-        if (isStopped) return
-        SystemClock.sleep(8000)
+            startForeground(1, n1)
+            if (isStopped) return
+            SystemClock.sleep(2000)
+        }
+        stopSelf()
     }
 
 

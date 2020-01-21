@@ -1,5 +1,7 @@
 package com.example.jobintentserviceex
 
+import android.app.job.JobScheduler
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +17,9 @@ class MainActivity : AppCompatActivity() {
             i.putExtra("input",et1.text.toString())
 
             JobIntentServiceEx.enqueueWork(this,i)
+           // var js = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+           // js.cancel(123)
         }
+
     }
 }
